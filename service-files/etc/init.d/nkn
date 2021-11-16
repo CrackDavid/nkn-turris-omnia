@@ -1,0 +1,26 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2013-2014 OpenWrt.org
+
+START=96
+STOP=00
+
+start() {
+	[ "$(uci_get "nkn.@nkn[0].enabled")" = "0" ] && return 0
+
+	NKND="$(uci_get "nkn.@nkn[0].storage")/nkn/nknd"
+	[ ! -f "$NKND" ] && return 1
+
+	cd "$(uci_get "nkn.@nkn[0].storage")/nkn"
+	./nknd --remote
+	sleep 3
+	echo
+}
+
+stop() {
+	killall nkn
+}
+
+depends() {
+	cat "$(uci_get "nkn.@nkn[0].storage")/nkn/setup/info.json"
+	echo
+}

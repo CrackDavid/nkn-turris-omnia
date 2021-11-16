@@ -1,0 +1,4 @@
+
+config nkn
+	option enabled '1'
+	option storage '/mnt/sda1'
